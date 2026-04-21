@@ -6,7 +6,6 @@
 
 import Foundation
 import SwiftMIDICore
-import SwiftMIDIIO
 
 internal import SwiftMIDIInternals
 

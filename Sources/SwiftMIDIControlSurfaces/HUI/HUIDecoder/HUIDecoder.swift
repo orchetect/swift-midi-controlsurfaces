@@ -5,7 +5,6 @@
 //
 
 import SwiftMIDICore
-import SwiftMIDIIO
 
 /// Protocol that all HUI decoders conform to.
 public protocol HUIDecoder: ReceivesMIDIEvents {

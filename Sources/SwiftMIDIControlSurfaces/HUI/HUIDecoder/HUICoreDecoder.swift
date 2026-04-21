@@ -5,7 +5,6 @@
 //
 
 import SwiftMIDICore
-import SwiftMIDIIO
 
 /// Interprets HUI MIDI events and produces strongly-typed core HUI events.
 final class HUICoreDecoder: @unchecked Sendable {

@@ -6,7 +6,6 @@
 
 import Foundation
 import SwiftMIDICore
-import SwiftMIDIIO
 internal import SwiftMIDIInternals
 
 /// Object representing a HUI host which can provide one or more HUI banks.

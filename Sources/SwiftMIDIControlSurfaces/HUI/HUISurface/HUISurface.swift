@@ -6,7 +6,6 @@
 
 import Foundation
 import SwiftMIDICore
-import SwiftMIDIIO
 internal import SwiftMIDIInternals
 
 /// Object representing a single HUI control surface device, holding a model of its state and

@@ -18,15 +18,13 @@ let package = Package(
         )
     ],
     dependencies: [
-        .package(url: "https://github.com/orchetect/swift-midi-core", branch: "main"), // TODO: from: "0.1.0"),
-        .package(url: "https://github.com/orchetect/swift-midi-io", branch: "main") // TODO: from: "0.1.0")
+        .package(url: "https://github.com/orchetect/swift-midi-core", branch: "main") // TODO: from: "0.1.0")
     ],
     targets: [
         .target(
             name: "SwiftMIDIControlSurfaces",
             dependencies: [
-                .product(name: "SwiftMIDICore", package: "swift-midi-core"),
-                .product(name: "SwiftMIDIIO", package: "swift-midi-io")
+                .product(name: "SwiftMIDICore", package: "swift-midi-core")
             ],
             swiftSettings: [.define("DEBUG", .when(configuration: .debug))]
         ),
