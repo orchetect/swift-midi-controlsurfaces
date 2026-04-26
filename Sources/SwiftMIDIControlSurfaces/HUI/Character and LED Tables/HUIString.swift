@@ -1,6 +1,6 @@
 //
 //  HUIString.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  SwiftMIDI Control Surfaces • https://github.com/orchetect/swift-midi-controlsurfaces
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -11,26 +11,26 @@ public protocol HUIString: Equatable, Hashable, Sendable, CustomStringConvertibl
 {
     associatedtype Element: HUICharacter
     static var defaultChars: [Element] { get }
-    
+
     /// Fixed (static) char length for the string.
     static var staticCount: Int { get }
-    
+
     // @HUIStringCharsValidation
     /// HUI-encoded characters that make up the string.
     var chars: [Element] { get set }
-    
+
     /// Initialize with empty default string.
     init()
-    
+
     /// Initialize with HUI-encoded characters.
     init(chars: [Element])
-    
+
     /// Initialize from a string.
     /// Characters will be converted or substituted if they
     /// are not contained in ``Element``'s character set.
     /// String will be padded and truncated to the appropriate static length.
     init(lossy source: some StringProtocol)
-    
+
     /// Return the characters as a concatenated human-readable string.
     var stringValue: String { get }
 }
@@ -44,21 +44,21 @@ extension HUIString {
             count: staticCount
         )
     }
-    
+
     public init(chars: [Element]) {
         self.init()
         self.chars = chars
     }
-    
+
     public init(lossy source: some StringProtocol) {
         self.init()
-        
+
         let encoded: [Element] = source
             .prefix(Self.staticCount)
             .map { Element(String($0)) ?? .unknown() }
         chars = encoded
     }
-    
+
     public var stringValue: String {
         chars.map(\.string).joined()
     }
@@ -93,7 +93,7 @@ extension HUIString /* : Hashable */ {
 @propertyWrapper
 public struct HUIStringCharsValidation<Str: HUIString>: Sendable {
     private var value: [Str.Element]
-    
+
     public var wrappedValue: [Str.Element] {
         get {
             value
@@ -106,7 +106,7 @@ public struct HUIStringCharsValidation<Str: HUIString>: Sendable {
             }
         }
     }
-    
+
     public init(wrappedValue: [Str.Element]) {
         value = pad(chars: wrappedValue, for: Str.self)
     }

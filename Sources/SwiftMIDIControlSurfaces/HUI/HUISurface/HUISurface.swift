@@ -1,12 +1,12 @@
 //
 //  HUISurface.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  SwiftMIDI Control Surfaces • https://github.com/orchetect/swift-midi-controlsurfaces
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
+internal import SwiftMIDIInternals
 import Foundation
 import SwiftMIDICore
-internal import SwiftMIDIInternals
 
 /// Object representing a single HUI control surface device, holding a model of its state and
 /// providing granular update notifications.
@@ -21,47 +21,48 @@ internal import SwiftMIDIInternals
 /// > References:
 /// > - [HUI Hardware Reference Guide](https://loudaudio.netx.net/portals/loud-public/#asset/9795)
 @available(macOS 14.0, iOS 17.0, watchOS 10.0, tvOS 17.0, *)
-@Observable public final class HUISurface: @unchecked Sendable {
+@Observable
+public final class HUISurface: @unchecked Sendable {
     // MARK: - State Model
-    
+
     /// HUI control surface state model.
     /// Represents state of an entire HUI control surface (all controls, display elements, etc.).
     ///
     /// This property is observable with Combine/SwiftUI and can trigger UI updates upon changes
     /// when ``HUISurface`` is instanced as a `@StateObject var`.
     public internal(set) var model: HUISurfaceModel
-    
+
     // MARK: - Decoder
-    
+
     @ObservationIgnored
     var decoder: HUIHostEventDecoder!
-    
+
     // MARK: - Handlers
-    
+
     /// HUI event receive handler.
     public typealias ModelNotificationHandler = @Sendable (_ notification: HUISurfaceModelNotification) -> Void
-    
+
     /// Notification handler that is called as a result of the ``model`` being updated from received
     /// HUI events.
     @ObservationIgnored
     public var modelNotificationHandler: ModelNotificationHandler?
-    
+
     /// Notification handler will always be called even when a received HUI MIDI event from host
     /// does not result in a change to the HUI surface state model.
     public var alwaysNotify: Bool = false
-    
+
     /// Remote presence state change handler (when pings resume or cease after timeout).
     public typealias PresenceChangedHandler = @Sendable (_ isPresent: Bool) -> Void
-    
+
     /// Called when the remote presence state changes (when pings resume or cease after timeout).
     @ObservationIgnored
     public var remotePresenceChangedHandler: PresenceChangedHandler?
-    
+
     @ObservationIgnored
     public var midiOutHandler: MIDIOutHandler?
-    
+
     // MARK: - Presence
-    
+
     /// Time duration to wait since the last ping received before transitioning ``isRemotePresent``
     /// to `false`.
     ///
@@ -69,7 +70,7 @@ internal import SwiftMIDIInternals
     /// ... 5 seconds is reasonable depending on desired leeway.
     @ObservationIgnored
     public let remotePresenceTimeout: TimeInterval
-    
+
     @ObservationIgnored
     var remotePresenceTimer: Task<Void, any Error>? {
         get { _remotePresenceTimer.value }
@@ -79,7 +80,7 @@ internal import SwiftMIDIInternals
 
     @ObservationIgnored nonisolated(unsafe)
     private var _remotePresenceTimer = PThreadMutexValue<Task<Void, any Error>?>(nil)
-    
+
     func restartRemotePresenceTimer() {
         remotePresenceTimer?.cancel()
         remotePresenceTimer = Task { [weak self] in
@@ -89,7 +90,7 @@ internal import SwiftMIDIInternals
             }
         }
     }
-    
+
     /// This property will be `true` while ping messages are being received.
     /// If ping messages are interrupted, this property with transition to `false`.
     /// It will transition back to `true` once received ping messages resume.
@@ -99,15 +100,15 @@ internal import SwiftMIDIInternals
     /// This property is observable with Combine/SwiftUI and can trigger UI updates upon changes.
     @MainActor
     public internal(set) var isRemotePresent: Bool = false
-    
+
     func setIsRemotePresent(_ newValue: Bool) {
         Task { @MainActor in isRemotePresent = newValue }
     }
-    
+
     private func receivedPing() {
         Task {
             restartRemotePresenceTimer()
-            
+
             let oldValue = await isRemotePresent
             // note that we want to make observable property changes on main, but this method
             // is only ever called from the main actor so we don't need to push it to main here
@@ -115,14 +116,14 @@ internal import SwiftMIDIInternals
             if !oldValue {
                 remotePresenceChangedHandler?(true)
             }
-            
+
             // send ping-reply if ping request is received
             transmitPing()
         }
     }
-    
+
     // MARK: - Init
-    
+
     /// Initialize HUI control surface (client) object.
     ///
     /// - Parameters:
@@ -149,41 +150,41 @@ internal import SwiftMIDIInternals
         self.remotePresenceTimeout = remotePresenceTimeout.clamped(to: 1.1...)
         self.remotePresenceChangedHandler = remotePresenceChangedHandler
         self.midiOutHandler = midiOutHandler
-        
+
         model = HUISurfaceModel()
-        
+
         decoder = HUIHostEventDecoder { [weak self] hostEvent in
             guard let self else { return }
             handleDecoder(hostEvent: hostEvent)
         }
-        
+
         // presence timer
         restartRemotePresenceTimer()
-        
+
         // HUI control surfaces send a System Reset message when they are powered on
         transmitSystemReset()
     }
-    
+
     deinit {
         // HUI control surfaces send a System Reset message when they are powered off
         transmitSystemReset()
     }
-    
+
     // MARK: - Methods
-    
+
     /// Resets state back to init state. Handlers are unaffected.
     public func reset() {
         model = HUISurfaceModel()
         decoder.reset()
     }
-    
+
     private func handleDecoder(hostEvent: HUIHostEventDecoder.Event) {
         // process event on main actor in case it results in UI updates
         Task { @MainActor in
             if case .ping = hostEvent {
                 self.receivedPing()
             }
-            
+
             let result = self.model.updateState(
                 from: hostEvent,
                 alwaysNotify: self.alwaysNotify

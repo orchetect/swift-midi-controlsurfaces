@@ -1,22 +1,22 @@
 //
 //  HUILargeDisplayString.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  SwiftMIDI Control Surfaces • https://github.com/orchetect/swift-midi-controlsurfaces
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
+internal import SwiftMIDIInternals
 import Foundation
 import SwiftMIDICore
-internal import SwiftMIDIInternals
 
 /// HUI large text display 40-character string.
 public struct HUILargeDisplayString: HUIString, Equatable, Hashable {
     public typealias Element = HUILargeDisplayCharacter
-    
+
     public static let staticCount = 40
-    
+
     @HUIStringCharsValidation<Self>
     public var chars: [Element]
-    
+
     public init() {
         chars = Self.defaultChars
     }
@@ -31,7 +31,7 @@ extension HUILargeDisplayString {
     public func slices() -> [[HUILargeDisplayCharacter]] {
         chars.split(every: 10).map { Array($0) }
     }
-    
+
     /// Internal:
     /// Updates a portion of the 40-char string.
     ///
@@ -43,10 +43,10 @@ extension HUILargeDisplayString {
     mutating func update(slice: UInt4, newChars: [Element]) -> Bool {
         guard newChars.count == 10 else { return false }
         guard (0 ... 3).contains(slice) else { return false }
-        
+
         let offset = 10 * slice.intValue
         let range = offset ... offset + 9
-        
+
         if !(chars[range].elementsEqual(newChars)) {
             chars.replaceSubrange(range, with: newChars)
             return true

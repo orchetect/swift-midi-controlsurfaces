@@ -1,6 +1,6 @@
 //
 //  LEDState.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  SwiftMIDI Control Surfaces • https://github.com/orchetect/swift-midi-controlsurfaces
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -14,16 +14,16 @@ extension HUIVPotDisplay {
     /// This index set is abstracted here as an enumeration of clearly defined preset configuration cases.
     public enum LEDState: Equatable, Hashable {
         case allOff
-        
+
         /// A single LED is illuminated.
         case single(LED)
-        
+
         /// A range of LED(s) are illuminated starting from the center and extending to the given LED.
         case center(to: LED)
-        
+
         /// A range of LED(s) are illuminated starting from the left and extending to the given LED.
         case left(to: LED)
-        
+
         /// A range of LED(s) are illuminated starting from the center and extending symmetrically to both
         /// left and right by the given radius (count) of LEDs.
         ///
@@ -36,15 +36,15 @@ extension HUIVPotDisplay {
 
 // MARK: - CaseIterable
 
-// swiftformat:options --wrapcollections preserve
-// swiftformat:options --maxwidth none
+// swiftformat:disable consecutiveSpaces
+// swiftformat:options --wrap-collections preserve --allow-partial-wrapping true
 
 extension HUIVPotDisplay.LEDState: CaseIterable {
     public static let allCases: [Self] =
         [.allOff]
             + LED.allCases.map { .single($0) }
-            + LED.allCases.map { .left(to: $0) }
             + LED.allCases.map { .center(to: $0) }
+            + LED.allCases.map { .left(to: $0) }
             + LED.allCases.map { .centerRadius(radius: $0) }
 }
 
@@ -66,19 +66,19 @@ extension HUIVPotDisplay.LEDState {
     /// Initialize from raw encoded value
     public init?(rawValue: UInt8) {
         guard (0x00 ... 0x7F).contains(rawValue) else { return nil }
-        
+
         let nibbles = (rawValue % 0x40).nibbles
-        
+
         if nibbles.low == 0x0 {
             self = .allOff
             return
         }
-        
+
         func formLED() -> LED? {
             guard nibbles.low > 0 else { return nil }
             return LED(rawValue: UInt8(nibbles.low - 1))
         }
-        
+
         switch nibbles.high {
         case 0x0: // single
             if let led = formLED() {
@@ -107,7 +107,7 @@ extension HUIVPotDisplay.LEDState {
             return nil
         }
     }
-    
+
     /// Return the raw index value encoded in the HUI message.
     public var rawValue: UInt8 {
         switch self {
@@ -129,7 +129,7 @@ extension HUIVPotDisplay.LEDState {
 
 extension HUIVPotDisplay.LEDState {
     // swiftformat:disable numberFormatting
-    
+
     /// Matrix of preset LED states.
     ///
     /// Array indexes are the literal index number that is encoded in the HUI MIDI message.
@@ -148,10 +148,10 @@ extension HUIVPotDisplay.LEDState {
         0b00000000100,
         0b00000000010,
         0b00000000001,
-        
+
         // 0x0C ... 0x0F (not used)
         0, 0, 0, 0,
-        
+
         // 0x10 ... 0x1B
         0b00000000000,
         0b11111100000,
@@ -165,10 +165,10 @@ extension HUIVPotDisplay.LEDState {
         0b00000111100,
         0b00000111110,
         0b00000111111,
-        
+
         // 0x1C ... 0x1F (not used)
         0, 0, 0, 0,
-        
+
         // 0x20 ... 0x2B
         0b00000000000,
         0b10000000000,
@@ -182,10 +182,10 @@ extension HUIVPotDisplay.LEDState {
         0b11111111100,
         0b11111111110,
         0b11111111111,
-        
+
         // 0x2C ... 0x2F (not used)
         0, 0, 0, 0,
-        
+
         // 0x30 ... 0x3B
         0b00000000000,
         0b00000100000,
@@ -199,7 +199,7 @@ extension HUIVPotDisplay.LEDState {
         0b11111111111,
         0b11111111111,
         0b11111111111,
-        
+
         // 0x3C ... 0x3F (not used)
         0, 0, 0, 0
     ]
@@ -215,13 +215,13 @@ extension HUIVPotDisplay.LEDState {
         switch self {
         case .allOff:
             return nil
-            
+
         case let .single(led):
             return led ... led
-            
+
         case let .left(to: led):
             return .L5 ... led
-            
+
         case let .center(to: led):
             switch led {
             case .L5, .L4, .L3, .L2, .L1:
@@ -231,10 +231,10 @@ extension HUIVPotDisplay.LEDState {
             case .R1, .R2, .R3, .R4, .R5:
                 return .C ... led
             }
-            
+
         case let .centerRadius(radius: radius):
             switch radius {
-            case .C:       return .C ... .C
+            case .C: return .C ... .C
             case .L1, .R1: return .L1 ... .R1
             case .L2, .R2: return .L2 ... .R2
             case .L3, .R3: return .L3 ... .R3
@@ -243,12 +243,12 @@ extension HUIVPotDisplay.LEDState {
             }
         }
     }
-    
+
     /// Returns contiguous bounds as unit intervals (`0.0 ... 1.0`).
     /// Returns `nil` if all LEDs are off.
     public var unitIntervalBounds: ClosedRange<Double>? {
         guard let bounds else { return nil }
-        
+
         return bounds.lowerBound.unitIntervalLowerBound ...
             bounds.upperBound.unitIntervalUpperBound
     }
@@ -266,13 +266,13 @@ extension HUIVPotDisplay.LEDState {
         let chars: [Character] = boolArray.map { $0 ? activeChar : inactiveChar }
         return String(chars)
     }
-    
+
     /// LED configuration represented as a `Bool` array.
     public var boolArray: [Bool] {
         let bits = Self.bitPatterns[Int(rawValue)]
         return (0 ..< 11).map { (bits >> $0) & 0b1 == 0b1 }.reversed()
     }
-    
+
     /// LED states as an 11-bit pattern. (Big-endian, occupying 11 least significant bits).
     public var bitPattern: UInt16 {
         Self.bitPatterns[Int(rawValue)]
@@ -286,27 +286,27 @@ extension HUIVPotDisplay.LEDState {
     public static func `default`() -> Self {
         .allOff
     }
-    
+
     /// Suitable default case for use as a substitute for an unknown preset index.
     public static func unknown() -> Self {
         .allOff
     }
-    
+
     /// Initialize by returning a ``single(_:)`` case constructed from a unit interval corresponding to the LED position.
     public static func single(unitInterval: Double) -> Self {
         .single(LED(position: unitInterval))
     }
-    
+
     /// Initialize by returning a ``left(to:)`` case constructed from a unit interval corresponding to the terminating LED position.
     public static func left(toUnitInterval unitInterval: Double) -> Self {
         .left(to: LED(position: unitInterval))
     }
-    
+
     /// Initialize by returning a ``center(to:)`` case constructed from a unit interval corresponding to the terminating LED position.
     public static func center(toUnitInterval unitInterval: Double) -> Self {
         .center(to: LED(position: unitInterval))
     }
-    
+
     /// Initialize by returning a ``centerRadius(radius:)`` case constructed from a unit interval corresponding to the radius from center.
     public static func centerRadius(unitInterval: Double) -> Self {
         if let led = LED(radiusUnitInterval: unitInterval) {

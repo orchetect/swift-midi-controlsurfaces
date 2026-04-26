@@ -1,6 +1,6 @@
 //
 //  HUISurfaceModelState BankMove.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  SwiftMIDI Control Surfaces • https://github.com/orchetect/swift-midi-controlsurfaces
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -9,7 +9,8 @@ import Foundation
 extension HUISurfaceModelState {
     /// State storage representing bank and channel navigation.
     @available(macOS 14.0, iOS 17.0, watchOS 10.0, tvOS 17.0, *)
-    @Observable public class BankMove {
+    @Observable
+    public class BankMove {
         public var channelLeft = false
         public var channelRight = false
         public var bankLeft = false
@@ -20,24 +21,24 @@ extension HUISurfaceModelState {
 @available(macOS 14.0, iOS 17.0, watchOS 10.0, tvOS 17.0, *)
 extension HUISurfaceModelState.BankMove: HUISurfaceModelStateProtocol {
     public typealias Switch = HUISwitch.BankMove
-    
+
     @inlinable
     public func state(of huiSwitch: Switch) -> Bool {
         switch huiSwitch {
-        case .channelLeft:  channelLeft
+        case .channelLeft: channelLeft
         case .channelRight: channelRight
-        case .bankLeft:     bankLeft
-        case .bankRight:    bankRight
+        case .bankLeft: bankLeft
+        case .bankRight: bankRight
         }
     }
-    
+
     @inlinable
     public func setState(of huiSwitch: Switch, to state: Bool) {
         switch huiSwitch {
-        case .channelLeft:  channelLeft = state
+        case .channelLeft: channelLeft = state
         case .channelRight: channelRight = state
-        case .bankLeft:     bankLeft = state
-        case .bankRight:    bankRight = state
+        case .bankLeft: bankLeft = state
+        case .bankRight: bankRight = state
         }
     }
 }

@@ -1,6 +1,6 @@
 //
 //  LEDState LED.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  SwiftMIDI Control Surfaces • https://github.com/orchetect/swift-midi-controlsurfaces
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -15,7 +15,7 @@ extension HUIVPotDisplay.LEDState {
         case L3 = 0x2
         case L2 = 0x3
         case L1 = 0x4
-        case C  = 0x5
+        case C = 0x5
         case R1 = 0x6
         case R2 = 0x7
         case R3 = 0x8
@@ -42,7 +42,7 @@ extension HUIVPotDisplay.LEDState.LED: CustomStringConvertible {
         case .L3: "L3"
         case .L2: "L2"
         case .L1: "L1"
-        case .C:  "C"
+        case .C: "C"
         case .R1: "R1"
         case .R2: "R2"
         case .R3: "R3"
@@ -71,11 +71,11 @@ extension HUIVPotDisplay.LEDState.LED {
         default: return nil
         }
     }
-    
+
     /// Returns the LED count from center as an absolute (positive) radius (`0 ... 5`).
     public var radius: Int {
         switch self {
-        case .C:       0
+        case .C: 0
         case .L1, .R1: 1
         case .L2, .R2: 2
         case .L3, .R3: 3
@@ -83,7 +83,7 @@ extension HUIVPotDisplay.LEDState.LED {
         case .L5, .R5: 5
         }
     }
-    
+
     /// Initialize from the LED count from center as
     /// an absolute (positive) unit interval (`0.0 ... 1.0`).
     public init?(radiusUnitInterval: Double) {
@@ -93,11 +93,11 @@ extension HUIVPotDisplay.LEDState.LED {
         case 0.4 ..< 0.6: self = .L2
         case 0.6 ..< 0.8: self = .L3
         case 0.8 ..< 1.0: self = .L4
-        case 1.0:         self = .L5
-        default:          return nil
+        case 1.0: self = .L5
+        default: return nil
         }
     }
-    
+
     /// Returns the LED count from center as an absolute (positive) unit interval (`0.0 ... 1.0`).
     public var radiusUnitInterval: Double {
         Double(radius) / 5
@@ -114,7 +114,7 @@ extension HUIVPotDisplay.LEDState.LED {
         let raw = UInt8((unitInterval * 0xA).clamped(to: 0x0 ... 0xA))
         self = Self(rawValue: raw) ?? .L5
     }
-    
+
     /// Return the LED position from left-to-right as a unit interval (`0.0 ... 1.0`).
     public var unitInterval: Double {
         Double(rawValue) / 0xA
@@ -130,7 +130,7 @@ extension HUIVPotDisplay.LEDState.LED {
     var unitIntervalLowerBound: Double {
         Double(rawValue) / 0xB
     }
-    
+
     /// Internal:
     /// The upper bound of the LED's position as a fraction of
     /// the overall distance of the unit interval scale.

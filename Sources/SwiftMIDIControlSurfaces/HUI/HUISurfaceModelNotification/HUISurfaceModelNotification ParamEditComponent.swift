@@ -1,6 +1,6 @@
 //
 //  HUISurfaceModelNotification ParamEditComponent.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  SwiftMIDI Control Surfaces • https://github.com/orchetect/swift-midi-controlsurfaces
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -12,21 +12,21 @@ extension HUISurfaceModelNotification {
         case assign(state: Bool)
         case compare(state: Bool)
         case bypass(state: Bool)
-        
+
         case param1Select(state: Bool)
         case param1VPot(display: HUIVPotDisplay)
-        
+
         case param2Select(state: Bool)
         case param2VPot(display: HUIVPotDisplay)
-        
+
         case param3Select(state: Bool)
         case param3VPot(display: HUIVPotDisplay)
-        
+
         case param4Select(state: Bool)
         case param4VPot(display: HUIVPotDisplay)
-        
+
         case insertOrParam(state: Bool)
-        
+
         // paramScroll rotary knob has no display, it's for surface → host user-input only
     }
 }

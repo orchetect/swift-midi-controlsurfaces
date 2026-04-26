@@ -1,6 +1,6 @@
 //
 //  HUIHostEvent Encode.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  SwiftMIDI Control Surfaces • https://github.com/orchetect/swift-midi-controlsurfaces
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -19,25 +19,25 @@ extension HUIHostEvent {
                 side: side,
                 level: level
             )]
-            
+
         case let .faderLevel(channelStrip, level):
             encodeHUIFader(level: level, channel: channelStrip)
-            
+
         case let .vPot(vPot, display):
             [encodeHUIVPot(display: display, for: vPot)]
-            
+
         case let .largeDisplay(slices):
             encodeHUILargeDisplay(slices: slices)
 
         case let .timeDisplay(charsRightToLeft):
             [encodeHUITimeDisplay(charsRightToLeft: charsRightToLeft)]
-            
+
         case let .selectAssignDisplay(text):
             [encodeHUISmallDisplay(for: .selectAssign, text: text)]
-            
+
         case let .channelDisplay(channelStrip, text):
             [encodeHUISmallDisplay(for: .channel(channelStrip), text: text)]
-            
+
         case let .switch(huiSwitch, state):
             encodeHUISwitch(huiSwitch, state: state, to: .surface)
         }
@@ -49,13 +49,13 @@ extension HUIHostEvent: _HUIEvent {
         switch coreEvent {
         case .ping:
             self = .ping
-            
+
         case let .levelMeter(channelStrip, side, level):
             self = .levelMeter(channelStrip: channelStrip, side: side, level: level)
-            
+
         case let .faderLevel(channelStrip, level):
             self = .faderLevel(channelStrip: channelStrip, level: level)
-            
+
         case let .vPot(vPot, value):
             switch value {
             case let .display(display):
@@ -68,22 +68,22 @@ extension HUIHostEvent: _HUIEvent {
                 // return neutral event as failsafe instead of crashing
                 self = .ping
             }
-            
+
         case let .largeDisplay(slices):
             self = .largeDisplay(slices: slices)
-            
+
         case let .timeDisplay(charsRightToLeft):
             self = .timeDisplay(charsRightToLeft: charsRightToLeft)
-            
+
         case let .selectAssignDisplay(text):
             self = .selectAssignDisplay(text: text)
-            
+
         case let .channelDisplay(channelStrip, text):
             self = .channelDisplay(channelStrip: channelStrip, text: text)
-            
+
         case let .switch(huiSwitch, state):
             self = .switch(huiSwitch: huiSwitch, state: state)
-            
+
         case .jogWheel:
             // TODO: should probably refactor so this case isn't possible
             assertionFailure(
@@ -91,7 +91,7 @@ extension HUIHostEvent: _HUIEvent {
             )
             // return neutral event as failsafe instead of crashing
             self = .ping
-            
+
         case .systemReset:
             Logger.debug(
                 "HUIHostEvent was initialized from a system reset message, which is undefined for a HUI host to receive."

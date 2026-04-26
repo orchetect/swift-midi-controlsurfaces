@@ -1,6 +1,6 @@
 //
 //  HUISmallDisplayCharacter.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  SwiftMIDI Control Surfaces • https://github.com/orchetect/swift-midi-controlsurfaces
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -17,7 +17,7 @@ public enum HUISmallDisplayCharacter: UInt7, CaseIterable {
     case invertedQuestion = 0x05
     case à = 0x06
     case Ø = 0x07
-    
+
     case ø = 0x08
     case ò = 0x09
     case ù = 0x0A
@@ -26,30 +26,30 @@ public enum HUISmallDisplayCharacter: UInt7, CaseIterable {
     case ê = 0x0D
     case É = 0x0E
     case é = 0x0F
-    
+
     case è = 0x10
     case Æ = 0x11
     case æ = 0x12
     case Å = 0x13
-    
+
     case å = 0x14
     case Ä = 0x15
     case ä = 0x16
     case Ö = 0x17
-    
+
     case ö = 0x18
     case Ü = 0x19
     case ü = 0x1A
     /// Degrees Celsius.
     case ℃ = 0x1B
-    
+
     /// Degrees Fahrenheit.
     case ℉ = 0x1C
     case ß = 0x1D
     /// `£` - Pound currency symbol.
     case pound = 0x1E
     case yen = 0x1F
-    
+
     case space = 0x20
     case exclamationPoint = 0x21
     /// `"`
@@ -60,7 +60,7 @@ public enum HUISmallDisplayCharacter: UInt7, CaseIterable {
     case percent = 0x25
     case ampersand = 0x26
     case apostrophe = 0x27
-    
+
     case openParens = 0x28
     case closeParens = 0x29
     case asterisk = 0x2A
@@ -71,7 +71,7 @@ public enum HUISmallDisplayCharacter: UInt7, CaseIterable {
     case period = 0x2E
     /// `/`
     case forwardSlash = 0x2F
-    
+
     case num0 = 0x30
     case num1 = 0x31
     case num2 = 0x32
@@ -80,7 +80,7 @@ public enum HUISmallDisplayCharacter: UInt7, CaseIterable {
     case num5 = 0x35
     case num6 = 0x36
     case num7 = 0x37
-    
+
     case num8 = 0x38
     case num9 = 0x39
     case colon = 0x3A
@@ -89,7 +89,7 @@ public enum HUISmallDisplayCharacter: UInt7, CaseIterable {
     case equal = 0x3D
     case rightAngleBracket = 0x3E
     case question = 0x3F
-    
+
     /// `@`
     case at = 0x40
     case A = 0x41
@@ -99,7 +99,7 @@ public enum HUISmallDisplayCharacter: UInt7, CaseIterable {
     case E = 0x45
     case F = 0x46
     case G = 0x47
-    
+
     case H = 0x48
     case I = 0x49
     case J = 0x4A
@@ -108,7 +108,7 @@ public enum HUISmallDisplayCharacter: UInt7, CaseIterable {
     case M = 0x4D
     case N = 0x4E
     case O = 0x4F
-    
+
     case P = 0x50
     case Q = 0x51
     case R = 0x52
@@ -117,7 +117,7 @@ public enum HUISmallDisplayCharacter: UInt7, CaseIterable {
     case U = 0x55
     case V = 0x56
     case W = 0x57
-    
+
     case X = 0x58
     case Y = 0x59
     case Z = 0x5A
@@ -127,7 +127,7 @@ public enum HUISmallDisplayCharacter: UInt7, CaseIterable {
     case rightSquareBracket = 0x5D
     case caret = 0x5E
     case underscore = 0x5F
-    
+
     /// `
     case backtick = 0x60
     case a = 0x61
@@ -137,7 +137,7 @@ public enum HUISmallDisplayCharacter: UInt7, CaseIterable {
     case e = 0x65
     case f = 0x66
     case g = 0x67
-    
+
     case h = 0x68
     case i = 0x69
     case j = 0x6A
@@ -146,7 +146,7 @@ public enum HUISmallDisplayCharacter: UInt7, CaseIterable {
     case m = 0x6D
     case n = 0x6E
     case o = 0x6F
-    
+
     case p = 0x70
     case q = 0x71
     case r = 0x72
@@ -155,7 +155,7 @@ public enum HUISmallDisplayCharacter: UInt7, CaseIterable {
     case u = 0x75
     case v = 0x76
     case w = 0x77
-    
+
     case x = 0x78
     case y = 0x79
     case z = 0x7A
@@ -169,6 +169,8 @@ public enum HUISmallDisplayCharacter: UInt7, CaseIterable {
 extension HUISmallDisplayCharacter: Sendable { }
 
 extension HUISmallDisplayCharacter: _HUICharacter {
+    // swiftformat:disable consecutiveSpaces
+    // swiftformat:options --wrap-collections preserve --allow-partial-wrapping true
     static let stringTable = [
         "ì",  "↑",  "→",  "↓",  "←",  "¿",  "à",  "Ø", // 0x00 ...
         "ø",  "ò",  "ù",  "Ň",  "Ç",  "ê",  "É",  "é", //      ... 0x0F
@@ -187,13 +189,15 @@ extension HUISmallDisplayCharacter: _HUICharacter {
         "p",  "q",  "r",  "s",  "t",  "u",  "v",  "w", // 0x70 ...
         "x",  "y",  "z",  "{",  "|",  "}",  "~",  "░"  //      ... 0x7F
     ]
+    // swiftformat:enable consecutiveSpaces
+    // swiftformat:options --wrap-collections before-first --allow-partial-wrapping false
 }
 
 extension HUISmallDisplayCharacter: HUICharacter {
     public static func `default`() -> Self {
         .space
     }
-    
+
     public static func unknown() -> Self {
         .question // just a random '?' character
     }

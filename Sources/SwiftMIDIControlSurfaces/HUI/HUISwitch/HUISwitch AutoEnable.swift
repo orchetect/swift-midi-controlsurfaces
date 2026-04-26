@@ -1,6 +1,6 @@
 //
 //  HUISwitch AutoEnable.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  SwiftMIDI Control Surfaces • https://github.com/orchetect/swift-midi-controlsurfaces
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -29,12 +29,12 @@ extension HUISwitch.AutoEnable: HUISwitchProtocol {
         switch self {
         // Zone 0x17
         // Auto Enable (To the right of the channel strips)
-        case .plugin:   (0x17, 0x0)
-        case .pan:      (0x17, 0x1)
-        case .fader:    (0x17, 0x2)
+        case .plugin: (0x17, 0x0)
+        case .pan: (0x17, 0x1)
+        case .fader: (0x17, 0x2)
         case .sendMute: (0x17, 0x3)
-        case .send:     (0x17, 0x4)
-        case .mute:     (0x17, 0x5)
+        case .send: (0x17, 0x4)
+        case .mute: (0x17, 0x5)
         }
     }
 }
@@ -42,12 +42,12 @@ extension HUISwitch.AutoEnable: HUISwitchProtocol {
 extension HUISwitch.AutoEnable: CustomStringConvertible {
     public var description: String {
         switch self {
-        case .plugin:   "plugin"
-        case .pan:      "pan"
-        case .fader:    "fader"
+        case .plugin: "plugin"
+        case .pan: "pan"
+        case .fader: "fader"
         case .sendMute: "sendMute"
-        case .send:     "send"
-        case .mute:     "mute"
+        case .send: "send"
+        case .mute: "mute"
         }
     }
 }

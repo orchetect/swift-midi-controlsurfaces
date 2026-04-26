@@ -1,6 +1,6 @@
 //
 //  HUISwitch Cursor.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  SwiftMIDI Control Surfaces • https://github.com/orchetect/swift-midi-controlsurfaces
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -13,9 +13,9 @@ extension HUISwitch {
         case left
         case right
         case down
-        case mode    // has LED; button in center of cursor direction keys
-        
-        case scrub   // has LED; to the right of the jogwheel
+        case mode // has LED; button in center of cursor direction keys
+
+        case scrub // has LED; to the right of the jogwheel
         case shuttle // has LED; to the right of the jogwheel
     }
 }
@@ -31,12 +31,12 @@ extension HUISwitch.Cursor: HUISwitchProtocol {
         switch self {
         // Zone 0x0D
         // Cursor Movement / Mode / Scrub / Shuttle
-        case .down:    (0x0D, 0x0)
-        case .left:    (0x0D, 0x1)
-        case .mode:    (0x0D, 0x2)
-        case .right:   (0x0D, 0x3)
-        case .up:      (0x0D, 0x4)
-        case .scrub:   (0x0D, 0x5)
+        case .down: (0x0D, 0x0)
+        case .left: (0x0D, 0x1)
+        case .mode: (0x0D, 0x2)
+        case .right: (0x0D, 0x3)
+        case .up: (0x0D, 0x4)
+        case .scrub: (0x0D, 0x5)
         case .shuttle: (0x0D, 0x6)
         }
     }
@@ -47,12 +47,12 @@ extension HUISwitch.Cursor: CustomStringConvertible {
         switch self {
         // Zone 0x0D
         // Cursor Movement / Mode / Scrub / Shuttle
-        case .down:    "down"
-        case .left:    "left"
-        case .mode:    "mode"
-        case .right:   "right"
-        case .up:      "up"
-        case .scrub:   "scrub"
+        case .down: "down"
+        case .left: "left"
+        case .mode: "mode"
+        case .right: "right"
+        case .up: "up"
+        case .scrub: "scrub"
         case .shuttle: "shuttle"
         }
     }

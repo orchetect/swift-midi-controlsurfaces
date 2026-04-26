@@ -1,11 +1,11 @@
 //
 //  HUI Encode Utilities.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  SwiftMIDI Control Surfaces • https://github.com/orchetect/swift-midi-controlsurfaces
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
-import SwiftMIDICore
 internal import SwiftMIDIInternals
+import SwiftMIDICore
 
 // MARK: - Ping
 
@@ -47,33 +47,33 @@ func encodeHUISwitch(
 ) -> [MIDIEvent] {
     // set on off byte
     var portByte: UInt8 = port.uInt8Value
-    
+
     if state == true {
         portByte += 0x40
     }
-    
+
     let ccA = role == .host
         ? HUIConstants.kMIDI.kControlDataByte1
-            .zoneSelectByteToHost
+        .zoneSelectByteToHost
         : HUIConstants.kMIDI.kControlDataByte1
-            .zoneSelectByteToSurface
+        .zoneSelectByteToSurface
     let event1: MIDIEvent = .cc(
         ccA.toUInt7,
         value: .midi1(zone.toUInt7),
         channel: 0
     )
-    
+
     let ccB = role == .host
         ? HUIConstants.kMIDI.kControlDataByte1
-            .portOnOffByteToHost
+        .portOnOffByteToHost
         : HUIConstants.kMIDI.kControlDataByte1
-            .portOnOffByteToSurface
+        .portOnOffByteToSurface
     let event2: MIDIEvent = .cc(
         ccB.toUInt7,
         value: .midi1(portByte.toUInt7),
         channel: 0
     )
-    
+
     return [event1, event2]
 }
 
@@ -92,7 +92,7 @@ func encodeHUISwitch(
     to role: HUIRole
 ) -> [MIDIEvent] {
     let zoneAndPort = huiSwitch.zoneAndPort
-    
+
     return encodeHUISwitch(
         zone: zoneAndPort.zone,
         port: zoneAndPort.port,
@@ -116,18 +116,18 @@ func encodeHUIFader(
     channel: UInt4
 ) -> [MIDIEvent] {
     guard (0 ... 16383).contains(level) else { return [] }
-    
+
     // UInt4 is self-validating, no need for guard
     // guard (0x0 ... 0x7).contains(channel) else { return [] }
-    
+
     let msb = level.bytePair.msb.toUInt7
     let lsb = level.bytePair.lsb.toUInt7
     let channelHi = channel.toUInt7
     let channelLow = channel.toUInt7 + 0x20
-    
+
     let event1: MIDIEvent = .cc(channelHi, value: .midi1(msb), channel: 0)
     let event2: MIDIEvent = .cc(channelLow, value: .midi1(lsb), channel: 0)
-    
+
     return [event1, event2]
 }
 
@@ -145,7 +145,7 @@ func encodeHUIFader(
 ) -> [MIDIEvent] {
     // UInt4 is self-validating, no need for guard
     // guard (0x0 ... 0x7).contains(channel) else { return [] }
-    
+
     let event1: MIDIEvent = .cc(
         HUIConstants.kMIDI.kControlDataByte1.zoneSelectByteToHost.toUInt7,
         value: .midi1(channel.toUInt7),
@@ -156,7 +156,7 @@ func encodeHUIFader(
         value: .midi1(isTouched ? 0x40 : 0x00),
         channel: 0
     )
-    
+
     return [event1, event2]
 }
 
@@ -324,13 +324,13 @@ func encodeHUILargeDisplay(
 ) -> [MIDIEvent] {
     // even though it's possible to embed more than one slice in a single SysEx message,
     // we will just do one SysEx per slice (which is how Pro Tools transmits slices)
-    
+
     // also, it's not necessary to sort the slices in index order
     // but it can't hurt, and makes unit testing more predictable
-    
+
     slices
         .sorted(by: { $0.key < $1.key })
-        .map { (sliceIndex, sliceChars) in
+        .map { sliceIndex, sliceChars in
             encodeHUILargeDisplay(sliceIndex: sliceIndex, text: sliceChars)
         }
 }
@@ -349,7 +349,7 @@ func encodeHUILargeDisplay(
     text: [HUILargeDisplayCharacter]
 ) -> MIDIEvent {
     let textBytes = text.map(\.rawValue)
-    
+
     return huiSysExTemplate(
         body: [
             HUIConstants.kMIDI.kDisplayType.largeByte,
@@ -371,7 +371,7 @@ func encodeHUITimeDisplay(
     text: HUITimeDisplayString
 ) -> MIDIEvent {
     let textBytes = text.chars.map(\.rawValue).reversed()
-    
+
     return huiSysExTemplate(
         body: [
             HUIConstants.kMIDI.kDisplayType.timeDisplayByte
@@ -391,7 +391,7 @@ func encodeHUITimeDisplay(
     charsRightToLeft: [HUITimeDisplayCharacter]
 ) -> MIDIEvent {
     let textBytes = charsRightToLeft.prefix(8).map(\.rawValue)
-    
+
     return huiSysExTemplate(
         body: [
             HUIConstants.kMIDI.kDisplayType.timeDisplayByte
@@ -414,7 +414,7 @@ func encodeHUISmallDisplay(
     text: HUISmallDisplayString
 ) -> MIDIEvent {
     let textBytes = text.chars.map(\.rawValue)
-    
+
     return huiSysExTemplate(
         body: [
             HUIConstants.kMIDI.kDisplayType.smallByte,
@@ -484,7 +484,7 @@ func encodeHUISystemReset() -> MIDIEvent {
 func encodeHUIDelta(from delta: Int7) -> UInt7 {
     let isNegative = delta < 0
     let delta = abs(delta.intValue) & 0b111111
-    
+
     if isNegative {
         return UInt7(delta)
     } else {
@@ -505,7 +505,7 @@ func encodeHUIDelta(from delta: Int7) -> UInt7 {
 func decodeHUIDelta(from delta: UInt7) -> Int7 {
     let isNegative = ((delta & 0b1000000) >> 6) == 0b0
     let delta = Int8(delta & 0b111111)
-    
+
     if isNegative {
         return Int7(-delta)
     } else {

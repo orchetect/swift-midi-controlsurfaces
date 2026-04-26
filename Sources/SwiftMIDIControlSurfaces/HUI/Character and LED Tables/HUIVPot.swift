@@ -1,6 +1,6 @@
 //
 //  HUIVPot.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  SwiftMIDI Control Surfaces • https://github.com/orchetect/swift-midi-controlsurfaces
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -11,23 +11,23 @@ import SwiftMIDICore
 public enum HUIVPot: Equatable, Hashable {
     /// Channel strip V-Pot.
     case channel(UInt4)
-    
+
     /// Edit/Assign V-Pot A.
     case editAssignA
-    
+
     /// Edit Assign V-Pot B.
     case editAssignB
-    
+
     /// Edit/Assign V-Pot C.
     case editAssignC
-    
+
     /// Edit/Assign V-Pot D.
     case editAssignD
-    
+
     /// Edit/Assign Scroll rotary knob.
     /// This is a user-input knob only and has no LED ring display.
     case editAssignScroll
-    
+
     /// Internal:
     /// Initialize from raw value for encoding/decoding HUI message.
     init?(rawValue: UInt8) {
@@ -49,7 +49,7 @@ public enum HUIVPot: Equatable, Hashable {
             return nil
         }
     }
-    
+
     /// Internal:
     /// Raw value for encoding/decoding HUI message.
     @inlinable
@@ -69,7 +69,7 @@ public enum HUIVPot: Equatable, Hashable {
             0xC
         }
     }
-    
+
     /// Returns `true` if the V-Pot has an LED ring display.
     @inlinable
     public var hasDisplay: Bool {
@@ -91,12 +91,12 @@ enum HUIVPotValue: Equatable, Hashable {
     /// Only applies to HUI messages sent from the host in order to update
     /// a client surface's V-Pot LEDs.
     case display(HUIVPotDisplay)
-    
+
     /// V-Pot rotary knob delta change -/+.
     /// Only applies to HUI messages sent from a client surface in order to transmit
     /// rotary knob input from the user to the host.
     case delta(Int7)
-    
+
     /// Internal:
     /// Raw value for encoding/decoding HUI message.
     @inlinable
@@ -108,7 +108,7 @@ enum HUIVPotValue: Equatable, Hashable {
             delta.rawUInt7Byte
         }
     }
-    
+
     /// Internal:
     /// Returns wrapped `Int7` value.
     @inlinable

@@ -1,6 +1,6 @@
 //
 //  HUIHostBank Transmit.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  SwiftMIDI Control Surfaces • https://github.com/orchetect/swift-midi-controlsurfaces
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -9,7 +9,7 @@ import SwiftMIDICore
 @available(macOS 14.0, iOS 17.0, watchOS 10.0, tvOS 17.0, *)
 extension HUIHostBank {
     // MARK: - Ping
-    
+
     /// Transmit a HUI ping message to the client surface.
     /// It is not necessary to call this manually. The ``HUIHost`` object will handle ping
     /// transmission on an internal timer automatically.
@@ -17,9 +17,9 @@ extension HUIHostBank {
         let event = encodeHUIPing(to: .surface)
         midiOut(event)
     }
-    
+
     // MARK: - Switch
-    
+
     /// Transmit switch state to the client surface.
     ///
     /// - Parameters:
@@ -30,7 +30,7 @@ extension HUIHostBank {
         state: Bool
     ) {
         let zoneAndPort = huiSwitch.zoneAndPort
-        
+
         let events = encodeHUISwitch(
             zone: zoneAndPort.zone,
             port: zoneAndPort.port,
@@ -39,9 +39,9 @@ extension HUIHostBank {
         )
         midiOut(events)
     }
-    
+
     // MARK: - Fader
-    
+
     /// Transmit fader level to the client surface.
     ///
     /// - Parameters:
@@ -54,9 +54,9 @@ extension HUIHostBank {
         let events = encodeHUIFader(level: level, channel: channel)
         midiOut(events)
     }
-    
+
     // MARK: - Level Meters
-    
+
     /// Transmit LED level meter change to the client surface.
     ///
     /// - Parameters:
@@ -76,9 +76,9 @@ extension HUIHostBank {
         )
         midiOut(event)
     }
-    
+
     // MARK: - V-Pot Value
-    
+
     /// Transmit V-Pot LED change to the client surface.
     ///
     /// - Parameters:
@@ -94,9 +94,9 @@ extension HUIHostBank {
         )
         midiOut(event)
     }
-    
+
     // MARK: - Large Text Display
-    
+
     /// Transmit large display text (40 x 2 characters) to the client surface.
     ///
     /// - Parameters:
@@ -107,7 +107,7 @@ extension HUIHostBank {
         let event = encodeHUILargeDisplay(display: display)
         midiOut(event)
     }
-    
+
     /// Transmit portion(s) of large display text (40 x 2 characters) to the client surface.
     ///
     /// This text display is split into 8 slices of 10 characters each, with slices
@@ -124,9 +124,9 @@ extension HUIHostBank {
         let event = encodeHUILargeDisplay(slices: slices)
         midiOut(event)
     }
-    
+
     // MARK: - Time Display
-    
+
     /// Transmit full set of time display digits to the client surface.
     ///
     /// - Parameters:
@@ -137,7 +137,7 @@ extension HUIHostBank {
         let event = encodeHUITimeDisplay(text: text)
         midiOut(event)
     }
-    
+
     /// Transmit some or all of the time display digits to the client surface.
     ///
     /// - Parameters:
@@ -150,9 +150,9 @@ extension HUIHostBank {
         let event = encodeHUITimeDisplay(charsRightToLeft: charsRightToLeft)
         midiOut(event)
     }
-    
+
     // MARK: - Small Text Display
-    
+
     /// Transmit small display text (4 characters) to the client surface.
     ///
     /// - Parameters:

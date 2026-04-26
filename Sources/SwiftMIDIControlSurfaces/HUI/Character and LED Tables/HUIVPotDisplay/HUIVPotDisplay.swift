@@ -1,6 +1,6 @@
 //
 //  HUIVPotDisplay.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  SwiftMIDI Control Surfaces • https://github.com/orchetect/swift-midi-controlsurfaces
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -12,20 +12,20 @@ import Foundation
 /// as well as a single LED centered underneath.
 public struct HUIVPotDisplay: Equatable, Hashable {
     // MARK: State
-    
+
     /// LED ring: 11 LEDs in a semi-circle, each with on or off state. The center LED is index 5.
     public var leds: LEDState
-    
+
     /// Lower LED state.
     public var lowerLED: Bool
-    
+
     // MARK: Init
-    
+
     public init() {
         leds = .allOff
         lowerLED = false
     }
-    
+
     public init(leds: LEDState, lowerLED: Bool) {
         self.leds = leds
         self.lowerLED = lowerLED
@@ -63,7 +63,7 @@ extension HUIVPotDisplay {
             lowerLED = false
         }
     }
-    
+
     /// Internal:
     /// Returns raw encoded preset index.
     @inlinable

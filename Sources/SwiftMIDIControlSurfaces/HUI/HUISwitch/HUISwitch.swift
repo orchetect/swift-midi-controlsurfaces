@@ -1,6 +1,6 @@
 //
 //  HUISwitch.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  SwiftMIDI Control Surfaces • https://github.com/orchetect/swift-midi-controlsurfaces
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -25,55 +25,55 @@ import SwiftMIDICore
 public enum HUISwitch {
     /// Channel strip component.
     case channelStrip(UInt4, ChannelStrip)
-    
+
     /// Keyboard hotkeys.
     case hotKey(HotKey)
-    
+
     /// Window functions.
     case window(Window)
-    
+
     /// Bank and channel navigation.
     case bankMove(BankMove)
-    
+
     /// Assign section (buttons to top left of channel strips).
     case assign(Assign)
-    
+
     /// Cursor Movement / Mode / Scrub / Shuttle.
     case cursor(Cursor)
-    
+
     /// Transport section.
     case transport(Transport)
-    
+
     /// Control Room section.
     case controlRoom(ControlRoom)
-    
+
     /// Numeric entry pad.
     case numPad(NumPad)
-    
+
     /// Time display.
     case timeDisplayStatus(TimeDisplayStatus)
-    
+
     /// Auto Enable section (to the right of the channel strips).
     case autoEnable(AutoEnable)
-    
+
     /// Auto Mode section (to the right of the channel strips).
     case autoMode(AutoMode)
-    
+
     /// Status/Group section (to the right of the channel strips).
     case statusAndGroup(StatusAndGroup)
-    
+
     /// Edit section (to the right of the channel strips).
     case edit(Edit)
-    
+
     /// Function keys (to the right of the channel strips).
     case functionKey(FunctionKey)
-    
+
     /// Param Edit section.
     case paramEdit(ParameterEdit)
-    
+
     /// Footswitches and Sounds - no LEDs or buttons associated.
     case footswitchesAndSounds(FootswitchesAndSounds)
-    
+
     /// Undefined HUI switch.
     case undefined(zone: HUIZone, port: HUIPort)
 }
@@ -86,7 +86,7 @@ extension HUISwitch: Sendable { }
 
 extension HUISwitch: CaseIterable {
     public typealias AllCases = [Self]
-    
+
     public static let allCases: [HUISwitch] = [
         // Zones 0x00 - 0x07
         // Channel Strips
@@ -98,7 +98,7 @@ extension HUISwitch: CaseIterable {
         .channelStrip(0, .vPotSelect),
         .channelStrip(0, .insert),
         .channelStrip(0, .recordReady),
-        
+
         .channelStrip(1, .faderTouched),
         .channelStrip(1, .select),
         .channelStrip(1, .mute),
@@ -107,7 +107,7 @@ extension HUISwitch: CaseIterable {
         .channelStrip(1, .vPotSelect),
         .channelStrip(1, .insert),
         .channelStrip(1, .recordReady),
-        
+
         .channelStrip(2, .faderTouched),
         .channelStrip(2, .select),
         .channelStrip(2, .mute),
@@ -116,7 +116,7 @@ extension HUISwitch: CaseIterable {
         .channelStrip(2, .vPotSelect),
         .channelStrip(2, .insert),
         .channelStrip(2, .recordReady),
-        
+
         .channelStrip(3, .faderTouched),
         .channelStrip(3, .select),
         .channelStrip(3, .mute),
@@ -125,7 +125,7 @@ extension HUISwitch: CaseIterable {
         .channelStrip(3, .vPotSelect),
         .channelStrip(3, .insert),
         .channelStrip(3, .recordReady),
-        
+
         .channelStrip(4, .faderTouched),
         .channelStrip(4, .select),
         .channelStrip(4, .mute),
@@ -134,7 +134,7 @@ extension HUISwitch: CaseIterable {
         .channelStrip(4, .vPotSelect),
         .channelStrip(4, .insert),
         .channelStrip(4, .recordReady),
-        
+
         .channelStrip(5, .faderTouched),
         .channelStrip(5, .select),
         .channelStrip(5, .mute),
@@ -143,7 +143,7 @@ extension HUISwitch: CaseIterable {
         .channelStrip(5, .vPotSelect),
         .channelStrip(5, .insert),
         .channelStrip(5, .recordReady),
-        
+
         .channelStrip(6, .faderTouched),
         .channelStrip(6, .select),
         .channelStrip(6, .mute),
@@ -152,7 +152,7 @@ extension HUISwitch: CaseIterable {
         .channelStrip(6, .vPotSelect),
         .channelStrip(6, .insert),
         .channelStrip(6, .recordReady),
-        
+
         .channelStrip(7, .faderTouched),
         .channelStrip(7, .select),
         .channelStrip(7, .mute),
@@ -161,7 +161,7 @@ extension HUISwitch: CaseIterable {
         .channelStrip(7, .vPotSelect),
         .channelStrip(7, .insert),
         .channelStrip(7, .recordReady),
-        
+
         // Zone 0x08
         // Keyboard Shortcuts
         .hotKey(.ctrl),
@@ -172,7 +172,7 @@ extension HUISwitch: CaseIterable {
         .hotKey(.option),
         .hotKey(.editTool),
         .hotKey(.save),
-        
+
         // Zone 0x09
         // Window Functions
         .window(.mix),
@@ -181,14 +181,14 @@ extension HUISwitch: CaseIterable {
         .window(.memLoc),
         .window(.status),
         .window(.alt),
-        
+
         // Zone 0x0A
         // Channel Selection (scroll/bank channels in view)
         .bankMove(.channelLeft),
         .bankMove(.bankLeft),
         .bankMove(.channelRight),
         .bankMove(.bankRight),
-        
+
         // Zone 0x0B
         // Assign 1 (buttons to top left of channel strips)
         .assign(.output),
@@ -199,7 +199,7 @@ extension HUISwitch: CaseIterable {
         .assign(.sendC),
         .assign(.sendB),
         .assign(.sendA),
-        
+
         // Zone 0x0C
         // Assign 2 (buttons to top left of channel strips)
         .assign(.assign),
@@ -209,7 +209,7 @@ extension HUISwitch: CaseIterable {
         .assign(.mute),
         .assign(.bypass),
         .assign(.recordReadyAll),
-        
+
         // Zone 0x0D
         // Cursor Movement / Mode / Scrub / Shuttle
         .cursor(.down),
@@ -219,7 +219,7 @@ extension HUISwitch: CaseIterable {
         .cursor(.up),
         .cursor(.scrub),
         .cursor(.shuttle),
-        
+
         // Zone 0x0E
         // Transport Main
         .transport(.talkback),
@@ -228,7 +228,7 @@ extension HUISwitch: CaseIterable {
         .transport(.stop),
         .transport(.play),
         .transport(.record),
-        
+
         // Zone 0x0F
         // Transport continued
         .transport(.rtz),
@@ -236,7 +236,7 @@ extension HUISwitch: CaseIterable {
         .transport(.online),
         .transport(.loop),
         .transport(.quickPunch),
-        
+
         // Zone 0x10
         // Transport Punch
         .transport(.punchAudition),
@@ -244,7 +244,7 @@ extension HUISwitch: CaseIterable {
         .transport(.punchIn),
         .transport(.punchOut),
         .transport(.punchPost),
-        
+
         // Zone 0x11
         // Control Room - Monitor Input
         .controlRoom(.input3),
@@ -252,7 +252,7 @@ extension HUISwitch: CaseIterable {
         .controlRoom(.input1),
         .controlRoom(.mute),
         .controlRoom(.discreteInput1to1),
-        
+
         // Zone 0x12
         // Control Room - Monitor Output
         .controlRoom(.output3),
@@ -260,7 +260,7 @@ extension HUISwitch: CaseIterable {
         .controlRoom(.output1),
         .controlRoom(.dim),
         .controlRoom(.mono),
-        
+
         // Zone 0x13
         // Num Pad
         .numPad(.num0),
@@ -271,12 +271,12 @@ extension HUISwitch: CaseIterable {
         .numPad(.period),
         .numPad(.num3),
         .numPad(.num6),
-        
+
         // Zone 0x14
         // Num Pad
         .numPad(.enter),
         .numPad(.plus),
-        
+
         // Zone 0x15
         // Num Pad
         .numPad(.num7),
@@ -287,14 +287,14 @@ extension HUISwitch: CaseIterable {
         .numPad(.equals),
         .numPad(.forwardSlash),
         .numPad(.asterisk),
-        
+
         // Zone 0x16
         // Timecode LEDs (no buttons, LEDs only)
         .timeDisplayStatus(.timecode),
         .timeDisplayStatus(.feet),
         .timeDisplayStatus(.beats),
         .timeDisplayStatus(.rudeSolo),
-        
+
         // Zone 0x17
         // Auto Enable (To the right of the channel strips)
         .autoEnable(.plugin),
@@ -303,7 +303,7 @@ extension HUISwitch: CaseIterable {
         .autoEnable(.sendMute),
         .autoEnable(.send),
         .autoEnable(.mute),
-        
+
         // Zone 0x18
         // Auto Mode (To the right of the channel strips)
         .autoMode(.trim),
@@ -312,7 +312,7 @@ extension HUISwitch: CaseIterable {
         .autoMode(.off),
         .autoMode(.write),
         .autoMode(.touch),
-        
+
         // Zone 0x19
         // Status/Group (To the right of the channel strips)
         .statusAndGroup(.phase),
@@ -321,7 +321,7 @@ extension HUISwitch: CaseIterable {
         .statusAndGroup(.suspend),
         .statusAndGroup(.create),
         .statusAndGroup(.group),
-        
+
         // Zone 0x1A
         // Edit (To the right of the channel strips)
         .edit(.paste),
@@ -330,7 +330,7 @@ extension HUISwitch: CaseIterable {
         .edit(.delete),
         .edit(.copy),
         .edit(.separate),
-        
+
         // Zone 0x1B
         // Function Keys
         .functionKey(.f1),
@@ -341,7 +341,7 @@ extension HUISwitch: CaseIterable {
         .functionKey(.f6),
         .functionKey(.f7),
         .functionKey(.f8OrEsc),
-        
+
         // Zone 0x1C
         // Parameter Edit  (Section at top right below the Large Display readout)
         .paramEdit(.insertOrParam),
@@ -352,7 +352,7 @@ extension HUISwitch: CaseIterable {
         .paramEdit(.param4Select),
         .paramEdit(.bypass),
         .paramEdit(.compare),
-        
+
         // Zone 0x1D
         // Functions only - no LEDs or buttons
         .footswitchesAndSounds(.footswitchRelay1),
@@ -415,7 +415,7 @@ extension HUISwitch: HUISwitchProtocol {
 
         case let .footswitchesAndSounds(param):
             param.zoneAndPort
-            
+
         case let .undefined(zone: zone, port: port):
             (zone: zone, port: port)
         }
@@ -475,7 +475,7 @@ extension HUISwitch: CustomStringConvertible {
 
         case let .footswitchesAndSounds(param):
             "footswitchesAndSounds(\(param))"
-            
+
         case let .undefined(zone: zone, port: port):
             "undefined(zone: \(zone), port: \(port))"
         }

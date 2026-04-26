@@ -1,22 +1,23 @@
 //
 //  HUICharacter.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  SwiftMIDI Control Surfaces • https://github.com/orchetect/swift-midi-controlsurfaces
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
 import Foundation
 
 public protocol HUICharacter: CustomStringConvertible, CaseIterable, Sendable
-where Self: RawRepresentable, RawValue == UInt7 {
+    where Self: RawRepresentable, RawValue == UInt7
+{
     /// Returns the user-facing display string of the character.
     var string: String { get }
-    
+
     /// Initialize from the user-facing display string of the character.
-    init?<S: StringProtocol>(_ string: S)
-    
+    init?(_ string: some StringProtocol)
+
     /// Suitable default case for use as a default/neutral character.
     static func `default`() -> Self
-    
+
     /// Suitable default case for use as a substitute for an unknown character.
     static func unknown() -> Self
 }
@@ -35,7 +36,7 @@ extension _HUICharacter {
     public var string: String {
         Self.stringTable[Int(rawValue)]
     }
-    
+
     /// Initialize from the user-facing display string of the character.
     @inlinable
     public init?(_ string: some StringProtocol) {
@@ -70,14 +71,14 @@ extension RangeReplaceableCollection where Element: HUICharacter {
     /// Returns the HUI character sequence as a single concatenated string of characters.
     @inlinable
     public var stringValue: String {
-        map { $0.string }.joined()
+        map(\.string).joined()
     }
-    
+
     /// Internal:
     /// Pad digits array to static count length.
     func pad(count padCount: Int, with pad: Element) -> [Element] {
         let padCount = padCount.clamped(to: 0...)
-        
+
         switch count {
         case ..<padCount:
             return Array(self) + .init(repeating: pad, count: padCount - count)

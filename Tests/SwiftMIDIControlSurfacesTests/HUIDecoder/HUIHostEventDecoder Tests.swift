@@ -1,19 +1,20 @@
 //
 //  HUIHostEventDecoder Tests.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  SwiftMIDI Control Surfaces • https://github.com/orchetect/swift-midi-controlsurfaces
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
 @testable import SwiftMIDIControlSurfaces
 import Testing
 
-@Suite struct HUIHostEventDecoderTests {
+@Suite
+struct HUIHostEventDecoderTests {
     @available(macOS 14.0, iOS 17.0, watchOS 10.0, tvOS 17.0, *)
     @Test
     func ping() {
         runHUIEventTest(.ping)
     }
-    
+
     @available(macOS 14.0, iOS 17.0, watchOS 10.0, tvOS 17.0, *)
     @Test
     func huiSwitch() {
@@ -21,7 +22,7 @@ import Testing
             .switch(huiSwitch: .channelStrip(2, .solo), state: true)
         )
     }
-    
+
     @available(macOS 14.0, iOS 17.0, watchOS 10.0, tvOS 17.0, *)
     @Test
     func faderLevel() {
@@ -29,7 +30,7 @@ import Testing
             .faderLevel(channelStrip: 2, level: .midpoint)
         )
     }
-    
+
     @available(macOS 14.0, iOS 17.0, watchOS 10.0, tvOS 17.0, *)
     @Test
     func levelMeter() {
@@ -37,7 +38,7 @@ import Testing
             .levelMeter(channelStrip: 2, side: .right, level: 8)
         )
     }
-    
+
     @available(macOS 14.0, iOS 17.0, watchOS 10.0, tvOS 17.0, *)
     @Test
     func vPot() {
@@ -48,7 +49,7 @@ import Testing
             )
         )
     }
-    
+
     @available(macOS 14.0, iOS 17.0, watchOS 10.0, tvOS 17.0, *)
     @Test
     func largeDisplay() {
@@ -70,7 +71,7 @@ import Testing
                 .largeDisplay(slices: [4: [.Z, .Y, .X, .W, .V, .U, .T, .S, .R, .Q]])
             ]
         )
-        
+
         // char counts != 10 are invalid and would result in malformed HUI SysEx data
         runHUIEventTest(
             .largeDisplay(slices: [
@@ -78,7 +79,7 @@ import Testing
             ]),
             matches: []
         )
-        
+
         runHUIEventTest(
             .largeDisplay(slices: [
                 1: [.A, .B]
@@ -86,7 +87,7 @@ import Testing
             matches: []
         )
     }
-    
+
     @available(macOS 14.0, iOS 17.0, watchOS 10.0, tvOS 17.0, *)
     @Test
     func timeDisplay() {
@@ -94,7 +95,7 @@ import Testing
             .timeDisplay(charsRightToLeft: [.num8, .num1, .num0, .num1])
         )
     }
-    
+
     @available(macOS 14.0, iOS 17.0, watchOS 10.0, tvOS 17.0, *)
     @Test
     func selectAssignDisplay() {
@@ -102,7 +103,7 @@ import Testing
             .selectAssignDisplay(text: .init(chars: [.num1, .num2, .num3, .num4]))
         )
     }
-    
+
     @available(macOS 14.0, iOS 17.0, watchOS 10.0, tvOS 17.0, *)
     @Test
     func channelDisplay() {
@@ -110,12 +111,15 @@ import Testing
             .channelDisplay(channelStrip: 2, text: .init(chars: [.num1, .num2, .num3, .num4]))
         )
     }
-    
+
     // MARK: - Edge Cases
-    
+
     @available(macOS 14.0, iOS 17.0, watchOS 10.0, tvOS 17.0, *)
     @Test
     func smallText_MultipleInSingleSysEx() throws {
+        // swiftformat:disable consecutiveSpaces
+        // swiftformat:options --wrap-collections preserve --allow-partial-wrapping true
+
         try runHUIEventTest(
             source: .sysEx7(
                 manufacturer: HUIConstants.kMIDI.kSysEx.kManufacturer,
@@ -133,6 +137,9 @@ import Testing
                 .channelDisplay(channelStrip: 1, text: .init(chars: [.num5, .num6, .num7, .num8]))
             ]
         )
+
+        // swiftformat:enable consecutiveSpaces
+        // swiftformat:options --wrap-collections before-first --allow-partial-wrapping false
     }
 }
 
@@ -141,32 +148,32 @@ extension HUIHostEventDecoderTests {
     private final class Receiver: @unchecked Sendable {
         var decodedEvents: [HUIHostEvent] = []
     }
-    
+
     /// Verifies that a HUI event encodes and decodes back to itself.
     func runHUIEventTest(
         _ sourceEvent: HUIHostEvent,
         matches outputEvents: [HUIHostEvent]? = nil
     ) {
         let receiver = Receiver()
-        
+
         let decoder = HUIHostEventDecoder { huiEvent in
             receiver.decodedEvents.append(huiEvent)
         }
         let midiEvents = sourceEvent.encode()
         decoder.midiIn(events: midiEvents)
-        
+
         let eventsToMatch = outputEvents ?? [sourceEvent]
-        
+
         #expect(receiver.decodedEvents == eventsToMatch)
     }
-    
+
     /// Verifies that a raw HUI MIDI message decodes back to the given HUI event(s).
     func runHUIEventTest(
         source sourceMIDI: MIDIEvent,
         matches outputEvents: [HUIHostEvent]
     ) {
         let receiver = Receiver()
-        
+
         let decoder = HUIHostEventDecoder { huiEvent in
             receiver.decodedEvents.append(huiEvent)
         }

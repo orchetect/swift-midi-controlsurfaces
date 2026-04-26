@@ -1,6 +1,6 @@
 //
 //  HUISmallDisplay.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  SwiftMIDI Control Surfaces • https://github.com/orchetect/swift-midi-controlsurfaces
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -11,7 +11,7 @@ import SwiftMIDICore
 public enum HUISmallDisplay: Equatable, Hashable {
     case channel(UInt4)
     case selectAssign
-    
+
     /// Initialize from raw value for encoding/decoding HUI message.
     @inlinable
     init?(rawValue: UInt8) {
@@ -25,7 +25,7 @@ public enum HUISmallDisplay: Equatable, Hashable {
             return nil
         }
     }
-    
+
     /// Raw value for encoding/decoding HUI message.
     @inlinable
     var rawValue: UInt7 {

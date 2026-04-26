@@ -1,6 +1,6 @@
 //
 //  HUISurfaceModelState LargeDisplay.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  SwiftMIDI Control Surfaces • https://github.com/orchetect/swift-midi-controlsurfaces
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -10,13 +10,14 @@ import SwiftMIDICore
 extension HUISurfaceModelState {
     /// State storage representing the Large Text Display (40 x 2 character matrix).
     @available(macOS 14.0, iOS 17.0, watchOS 10.0, tvOS 17.0, *)
-    @Observable public class LargeDisplay {
+    @Observable
+    public class LargeDisplay {
         /// Top 40-character character readout.
         public var top: HUILargeDisplayString
-        
+
         /// Bottom 40-character character readout.
         public var bottom: HUILargeDisplayString
-        
+
         @usableFromInline
         init(
             top: HUILargeDisplayString = .init(),
@@ -45,7 +46,7 @@ extension HUISurfaceModelState.LargeDisplay {
             update(mergingFrom: newValue)
         }
     }
-    
+
     /// Internal:
     /// Update HUI string storage by merging string slices atomically.
     ///
@@ -53,13 +54,13 @@ extension HUISurfaceModelState.LargeDisplay {
     @inlinable @discardableResult
     func update(mergingFrom slices: HUILargeDisplaySlices) -> Bool {
         guard !slices.isEmpty else { return false }
-        
+
         let topSlices = slices.filter { (0 ... 3).contains($0.key) }
         let bottomSlices = slices.filter { (4 ... 7).contains($0.key) }
-        
+
         var isTopDiff = false
         var isBottomDiff = false
-        
+
         // update top
         var newTop = top
         for (sliceIndex, sliceChars) in topSlices {
@@ -68,7 +69,7 @@ extension HUISurfaceModelState.LargeDisplay {
             }
         }
         if isTopDiff { top = newTop }
-        
+
         // update bottom
         var newBottom = bottom
         for (sliceIndex, sliceChars) in bottomSlices {
@@ -77,7 +78,7 @@ extension HUISurfaceModelState.LargeDisplay {
             }
         }
         if isBottomDiff { bottom = newBottom }
-        
+
         return isTopDiff || isBottomDiff
     }
 }

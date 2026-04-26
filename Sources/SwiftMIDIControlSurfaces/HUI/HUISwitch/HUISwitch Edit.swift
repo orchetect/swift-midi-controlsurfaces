@@ -1,6 +1,6 @@
 //
 //  HUISwitch Edit.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  SwiftMIDI Control Surfaces • https://github.com/orchetect/swift-midi-controlsurfaces
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -29,11 +29,11 @@ extension HUISwitch.Edit: HUISwitchProtocol {
         switch self {
         // Zone 0x1A
         // Edit (To the right of the channel strips)
-        case .paste:    (0x1A, 0x0)
-        case .cut:      (0x1A, 0x1)
-        case .capture:  (0x1A, 0x2)
-        case .delete:   (0x1A, 0x3)
-        case .copy:     (0x1A, 0x4)
+        case .paste: (0x1A, 0x0)
+        case .cut: (0x1A, 0x1)
+        case .capture: (0x1A, 0x2)
+        case .delete: (0x1A, 0x3)
+        case .copy: (0x1A, 0x4)
         case .separate: (0x1A, 0x5)
         }
     }
@@ -44,11 +44,11 @@ extension HUISwitch.Edit: CustomStringConvertible {
         switch self {
         // Zone 0x1A
         // Edit (To the right of the channel strips)
-        case .paste:    "paste"
-        case .cut:      "cut"
-        case .capture:  "capture"
-        case .delete:   "delete"
-        case .copy:     "copy"
+        case .paste: "paste"
+        case .cut: "cut"
+        case .capture: "capture"
+        case .delete: "delete"
+        case .copy: "copy"
         case .separate: "separate"
         }
     }

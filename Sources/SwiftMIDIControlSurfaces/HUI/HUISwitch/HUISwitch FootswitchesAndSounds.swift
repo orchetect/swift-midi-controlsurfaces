@@ -1,6 +1,6 @@
 //
 //  HUISwitch FootswitchesAndSounds.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  SwiftMIDI Control Surfaces • https://github.com/orchetect/swift-midi-controlsurfaces
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -29,8 +29,8 @@ extension HUISwitch.FootswitchesAndSounds: HUISwitchProtocol {
         // Functions only - no LEDs or buttons
         case .footswitchRelay1: (0x1D, 0x0)
         case .footswitchRelay2: (0x1D, 0x1)
-        case .click:            (0x1D, 0x2)
-        case .beep:             (0x1D, 0x3)
+        case .click: (0x1D, 0x2)
+        case .beep: (0x1D, 0x3)
         }
     }
 }
@@ -42,8 +42,8 @@ extension HUISwitch.FootswitchesAndSounds: CustomStringConvertible {
         // Functions only - no LEDs or buttons
         case .footswitchRelay1: "footswitchRelay1"
         case .footswitchRelay2: "footswitchRelay2"
-        case .click:            "click"
-        case .beep:             "beep"
+        case .click: "click"
+        case .beep: "beep"
         }
     }
 }

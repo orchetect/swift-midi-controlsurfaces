@@ -1,6 +1,6 @@
 //
 //  HUISwitch AutoMode.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  SwiftMIDI Control Surfaces • https://github.com/orchetect/swift-midi-controlsurfaces
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -29,10 +29,10 @@ extension HUISwitch.AutoMode: HUISwitchProtocol {
         switch self {
         // Zone 0x18
         // Auto Mode (To the right of the channel strips)
-        case .trim:  (0x18, 0x0)
+        case .trim: (0x18, 0x0)
         case .latch: (0x18, 0x1)
-        case .read:  (0x18, 0x2)
-        case .off:   (0x18, 0x3)
+        case .read: (0x18, 0x2)
+        case .off: (0x18, 0x3)
         case .write: (0x18, 0x4)
         case .touch: (0x18, 0x5)
         }
@@ -44,10 +44,10 @@ extension HUISwitch.AutoMode: CustomStringConvertible {
         switch self {
         // Zone 0x18
         // Auto Mode (To the right of the channel strips)
-        case .trim:  "trim"
+        case .trim: "trim"
         case .latch: "latch"
-        case .read:  "read"
-        case .off:   "off"
+        case .read: "read"
+        case .off: "off"
         case .write: "write"
         case .touch: "touch"
         }

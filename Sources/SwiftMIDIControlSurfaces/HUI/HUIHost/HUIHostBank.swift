@@ -1,6 +1,6 @@
 //
 //  HUIHostBank.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  SwiftMIDI Control Surfaces • https://github.com/orchetect/swift-midi-controlsurfaces
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -15,33 +15,34 @@ internal import SwiftMIDIInternals
 /// Instead, call ``HUIHost/addBank(huiEventHandler:midiOutHandler:remotePresenceTimeout:remotePresenceChangedHandler:)``
 /// to add banks to your ``HUIHost`` instance.
 @available(macOS 14.0, iOS 17.0, watchOS 10.0, tvOS 17.0, *)
-@Observable public final class HUIHostBank: Sendable {
+@Observable
+public final class HUIHostBank: Sendable {
     // MARK: - Decoder
-    
+
     @ObservationIgnored nonisolated(unsafe)
     var decoder: HUISurfaceEventDecoder!
-    
+
     // MARK: - Handlers
-    
+
     /// HUI core event receive handler.
     public typealias HUIEventHandler = @Sendable (_ event: HUISurfaceEvent) -> Void
-    
+
     /// Event handler that is called when HUI events are received.
     @ObservationIgnored
     public let huiEventHandler: HUIEventHandler?
-    
+
     /// Remote presence state change handler (when pings resume or cease after timeout).
     public typealias PresenceChangedHandler = @Sendable (_ isPresent: Bool) -> Void
-    
+
     /// Called when the remote presence state changes (when pings resume or cease after timeout).
     @ObservationIgnored
     public let remotePresenceChangedHandler: PresenceChangedHandler?
-    
+
     @ObservationIgnored nonisolated(unsafe)
     public var midiOutHandler: MIDIOutHandler?
-    
+
     // MARK: - Presence
-    
+
     /// Time duration to wait since the last ping received before transitioning ``isRemotePresent``
     /// to `false`.
     ///
@@ -49,7 +50,7 @@ internal import SwiftMIDIInternals
     /// A timeout duration between `2 ... 5` seconds is reasonable depending on desired leeway.
     @ObservationIgnored
     public let remotePresenceTimeout: TimeInterval
-    
+
     var remotePresenceTimer: Task<Void, any Error>? {
         get { _remotePresenceTimer.value }
         _modify { yield &_remotePresenceTimer.value }
@@ -58,11 +59,11 @@ internal import SwiftMIDIInternals
 
     @ObservationIgnored nonisolated(unsafe)
     private var _remotePresenceTimer = PThreadMutexValue<Task<Void, any Error>?>(nil)
-    
+
     func restartRemotePresenceTimer() {
         remotePresenceTimer?.cancel()
         remotePresenceTimer = nil
-        
+
         remotePresenceTimer = Task { [weak self] in
             guard let self else { return }
             try await Task.sleep(for: .seconds(remotePresenceTimeout))
@@ -73,7 +74,7 @@ internal import SwiftMIDIInternals
             remotePresenceChangedHandler?(false)
         }
     }
-    
+
     /// This property will be `true` while ping messages are being received.
     /// If ping messages are interrupted, this property with transition to `false`.
     /// It will transition back to `true` once received ping messages resume.
@@ -83,11 +84,11 @@ internal import SwiftMIDIInternals
     /// This property is observable with Combine/SwiftUI and can trigger UI updates upon changes.
     @MainActor
     public internal(set) var isRemotePresent: Bool = false
-    
+
     func setIsRemotePresent(_ newValue: Bool) {
         Task { @MainActor in isRemotePresent = newValue }
     }
-    
+
     private func receivedPing() {
         Task {
             let oldValue = await isRemotePresent
@@ -98,9 +99,9 @@ internal import SwiftMIDIInternals
             }
         }
     }
-    
+
     // MARK: - Init
-    
+
     /// Internal: Init.
     init(
         huiEventHandler: HUIEventHandler?,
@@ -112,12 +113,12 @@ internal import SwiftMIDIInternals
         self.midiOutHandler = midiOutHandler
         self.remotePresenceTimeout = remotePresenceTimeout.clamped(to: 1.1...)
         self.remotePresenceChangedHandler = remotePresenceChangedHandler
-        
+
         decoder = HUISurfaceEventDecoder { [weak self] huiCoreEvent in
             if case .ping = huiCoreEvent {
                 self?.receivedPing()
             }
-            
+
             self?.huiEventHandler?(huiCoreEvent)
         }
     }

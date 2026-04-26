@@ -1,13 +1,14 @@
 //
 //  HUISwitch Tests.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  SwiftMIDI Control Surfaces • https://github.com/orchetect/swift-midi-controlsurfaces
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
 @testable import SwiftMIDIControlSurfaces
 import Testing
 
-@Suite struct HUISwitchTests {
+@Suite
+struct HUISwitchTests {
     /// Ensure all switches produce zone and port numbers that re-form the same switch case.
     @Test
     func allCases_InitZonePort() {

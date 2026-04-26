@@ -1,6 +1,6 @@
 //
 //  HUISurfaceModelNotification ChannelStripComponent.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  SwiftMIDI Control Surfaces • https://github.com/orchetect/swift-midi-controlsurfaces
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -11,34 +11,34 @@ extension HUISurfaceModelNotification {
     public enum ChannelStripComponent {
         /// Stereo Level Meter.
         case levelMeter(side: HUISurfaceModelState.StereoLevelMeterSide, level: Int)
-        
+
         /// Record Ready Button LED.
         case recordReady(state: Bool)
-        
+
         /// Insert Button LED.
         case insert(state: Bool)
-        
+
         /// V-Sel Button LED.
         case vPotSelect(state: Bool)
-        
+
         /// V-Pot LED ring display.
         case vPot(display: HUIVPotDisplay)
-        
+
         /// Auto(mation) Button LED.
         case auto(state: Bool)
-        
+
         /// Solo Button LED.
         case solo(state: Bool)
-        
+
         /// Mute Button LED.
         case mute(state: Bool)
-        
+
         /// 4-character channel name text display.
         case nameDisplay(text: HUISmallDisplayString)
-        
+
         /// Select Button LED.
         case select(state: Bool)
-        
+
         /// Motorized Fader level.
         case faderLevel(level: UInt14)
     }

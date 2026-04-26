@@ -1,6 +1,6 @@
 //
 //  HUISurfaceModelState AutoEnable.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  SwiftMIDI Control Surfaces • https://github.com/orchetect/swift-midi-controlsurfaces
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -9,7 +9,8 @@ import Foundation
 extension HUISurfaceModelState {
     /// State storage representing the Auto Enable section.
     @available(macOS 14.0, iOS 17.0, watchOS 10.0, tvOS 17.0, *)
-    @Observable public class AutoEnable {
+    @Observable
+    public class AutoEnable {
         public var fader = false
         public var pan = false
         public var plugin = false
@@ -22,27 +23,27 @@ extension HUISurfaceModelState {
 @available(macOS 14.0, iOS 17.0, watchOS 10.0, tvOS 17.0, *)
 extension HUISurfaceModelState.AutoEnable: HUISurfaceModelStateProtocol {
     public typealias Switch = HUISwitch.AutoEnable
-    
+
     @inlinable
     public func state(of huiSwitch: Switch) -> Bool {
         switch huiSwitch {
-        case .fader:    fader
-        case .pan:      pan
-        case .plugin:   plugin
-        case .mute:     mute
-        case .send:     send
+        case .fader: fader
+        case .pan: pan
+        case .plugin: plugin
+        case .mute: mute
+        case .send: send
         case .sendMute: sendMute
         }
     }
-    
+
     @inlinable
     public func setState(of huiSwitch: Switch, to state: Bool) {
         switch huiSwitch {
-        case .fader:    fader = state
-        case .pan:      pan = state
-        case .plugin:   plugin = state
-        case .mute:     mute = state
-        case .send:     send = state
+        case .fader: fader = state
+        case .pan: pan = state
+        case .plugin: plugin = state
+        case .mute: mute = state
+        case .send: send = state
         case .sendMute: sendMute = state
         }
     }

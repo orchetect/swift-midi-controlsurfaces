@@ -1,6 +1,6 @@
 //
 //  HUISwitch StatusAndGroup.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  SwiftMIDI Control Surfaces • https://github.com/orchetect/swift-midi-controlsurfaces
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -29,12 +29,12 @@ extension HUISwitch.StatusAndGroup: HUISwitchProtocol {
         switch self {
         // Zone 0x19
         // Status/Group (To the right of the channel strips)
-        case .phase:   (0x19, 0x0)
+        case .phase: (0x19, 0x0)
         case .monitor: (0x19, 0x1)
-        case .auto:    (0x19, 0x2)
+        case .auto: (0x19, 0x2)
         case .suspend: (0x19, 0x3)
-        case .create:  (0x19, 0x4)
-        case .group:   (0x19, 0x5)
+        case .create: (0x19, 0x4)
+        case .group: (0x19, 0x5)
         }
     }
 }
@@ -44,12 +44,12 @@ extension HUISwitch.StatusAndGroup: CustomStringConvertible {
         switch self {
         // Zone 0x19
         // Status/Group (To the right of the channel strips)
-        case .phase:   "phase"
+        case .phase: "phase"
         case .monitor: "monitor"
-        case .auto:    "auto"
+        case .auto: "auto"
         case .suspend: "suspend"
-        case .create:  "create"
-        case .group:   "group"
+        case .create: "create"
+        case .group: "group"
         }
     }
 }

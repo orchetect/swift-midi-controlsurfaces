@@ -1,6 +1,6 @@
 //
 //  HUISwitch ControlRoom.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  SwiftMIDI Control Surfaces • https://github.com/orchetect/swift-midi-controlsurfaces
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -33,18 +33,18 @@ extension HUISwitch.ControlRoom: HUISwitchProtocol {
         switch self {
         // Zone 0x11
         // Control Room - Monitor Input
-        case .input3:            (0x11, 0x0)
-        case .input2:            (0x11, 0x1)
-        case .input1:            (0x11, 0x2)
-        case .mute:              (0x11, 0x3)
+        case .input3: (0x11, 0x0)
+        case .input2: (0x11, 0x1)
+        case .input1: (0x11, 0x2)
+        case .mute: (0x11, 0x3)
         case .discreteInput1to1: (0x11, 0x4)
         // Zone 0x12
         // Control Room - Monitor Output
-        case .output3:           (0x12, 0x0)
-        case .output2:           (0x12, 0x1)
-        case .output1:           (0x12, 0x2)
-        case .dim:               (0x12, 0x3)
-        case .mono:              (0x12, 0x4)
+        case .output3: (0x12, 0x0)
+        case .output2: (0x12, 0x1)
+        case .output1: (0x12, 0x2)
+        case .dim: (0x12, 0x3)
+        case .mono: (0x12, 0x4)
         }
     }
 }
@@ -54,18 +54,18 @@ extension HUISwitch.ControlRoom: CustomStringConvertible {
         switch self {
         // Zone 0x11
         // Control Room - Monitor Input
-        case .input3:            "input3"
-        case .input2:            "input2"
-        case .input1:            "input1"
-        case .mute:              "mute"
+        case .input3: "input3"
+        case .input2: "input2"
+        case .input1: "input1"
+        case .mute: "mute"
         case .discreteInput1to1: "discreteInput1to1"
         // Zone 0x12
         // Control Room - Monitor Output
-        case .output3:           "output3"
-        case .output2:           "output2"
-        case .output1:           "output1"
-        case .dim:               "dim"
-        case .mono:              "mono"
+        case .output3: "output3"
+        case .output2: "output2"
+        case .output1: "output1"
+        case .dim: "dim"
+        case .mono: "mono"
         }
     }
 }

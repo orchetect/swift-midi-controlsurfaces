@@ -1,6 +1,6 @@
 //
 //  HUISwitch Window.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  SwiftMIDI Control Surfaces • https://github.com/orchetect/swift-midi-controlsurfaces
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -29,12 +29,12 @@ extension HUISwitch.Window: HUISwitchProtocol {
         switch self {
         // Zone 0x09
         // Window Functions
-        case .mix:       (0x09, 0x0)
-        case .edit:      (0x09, 0x1)
+        case .mix: (0x09, 0x0)
+        case .edit: (0x09, 0x1)
         case .transport: (0x09, 0x2)
-        case .memLoc:    (0x09, 0x3)
-        case .status:    (0x09, 0x4)
-        case .alt:       (0x09, 0x5)
+        case .memLoc: (0x09, 0x3)
+        case .status: (0x09, 0x4)
+        case .alt: (0x09, 0x5)
         }
     }
 }
@@ -44,12 +44,12 @@ extension HUISwitch.Window: CustomStringConvertible {
         switch self {
         // Zone 0x09
         // Window Functions
-        case .mix:       "mix"
-        case .edit:      "edit"
+        case .mix: "mix"
+        case .edit: "edit"
         case .transport: "transport"
-        case .memLoc:    "memLoc"
-        case .status:    "status"
-        case .alt:       "alt"
+        case .memLoc: "memLoc"
+        case .status: "status"
+        case .alt: "alt"
         }
     }
 }

@@ -1,6 +1,6 @@
 //
 //  HUISurfaceModelState StereoLevelMeter.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  SwiftMIDI Control Surfaces • https://github.com/orchetect/swift-midi-controlsurfaces
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -30,7 +30,8 @@ extension HUISurfaceModelState {
     ///     0x0    <  -60dBFS  (no LEDs on)
     ///
     @available(macOS 14.0, iOS 17.0, watchOS 10.0, tvOS 17.0, *)
-    @Observable public class StereoLevelMeter {
+    @Observable
+    public class StereoLevelMeter {
         /// Left Meter Channel.
         ///
         /// As value increases, all LEDs up to and including that value will illuminate,
@@ -60,7 +61,7 @@ extension HUISurfaceModelState {
                 }
             }
         }
-        
+
         /// Right Meter Channel.
         ///
         /// As value increases, all LEDs up to and including that value will illuminate,
@@ -100,7 +101,7 @@ extension HUISurfaceModelState.StereoLevelMeter {
     @inlinable
     public func level(of side: HUISurfaceModelState.StereoLevelMeterSide) -> Int {
         switch side {
-        case .left:  left
+        case .left: left
         case .right: right
         }
     }
@@ -113,7 +114,7 @@ extension HUISurfaceModelState {
     public enum StereoLevelMeterSide {
         /// Left stereo channel.
         case left
-        
+
         /// Right stereo channel.
         case right
     }
@@ -151,10 +152,10 @@ extension HUISurfaceModelState.StereoLevelMeterSide {
     /// Level value range minimum value.
     /// (`0` means that no LEDs on the meter are lit up.)
     public static let levelMin: Int = 0x0
-    
+
     /// Level value range maximum value.
     public static let levelMax: Int = 0xC
-    
+
     /// Range of possible level meter values.
     /// (`0` indicates that no LEDs on the meter are lit up.)
     public static let levelRange = levelMin ... levelMax

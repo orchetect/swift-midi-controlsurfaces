@@ -1,6 +1,6 @@
 //
 //  HUISwitch BankMove.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  SwiftMIDI Control Surfaces • https://github.com/orchetect/swift-midi-controlsurfaces
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -11,7 +11,7 @@ extension HUISwitch {
     public enum BankMove {
         case channelLeft
         case channelRight
-        
+
         case bankLeft
         case bankRight
     }
@@ -28,10 +28,10 @@ extension HUISwitch.BankMove: HUISwitchProtocol {
         switch self {
         // Zone 0x0A
         // Channel Selection (scroll/bank channels in view)
-        case .channelLeft:  (0x0A, 0x0)
-        case .bankLeft:     (0x0A, 0x1)
+        case .channelLeft: (0x0A, 0x0)
+        case .bankLeft: (0x0A, 0x1)
         case .channelRight: (0x0A, 0x2)
-        case .bankRight:    (0x0A, 0x3)
+        case .bankRight: (0x0A, 0x3)
         }
     }
 }
@@ -41,10 +41,10 @@ extension HUISwitch.BankMove: CustomStringConvertible {
         switch self {
         // Zone 0x0A
         // Channel Selection (scroll/bank channels in view)
-        case .channelLeft:  "channelLeft"
-        case .bankLeft:     "bankLeft"
+        case .channelLeft: "channelLeft"
+        case .bankLeft: "bankLeft"
         case .channelRight: "channelRight"
-        case .bankRight:    "bankRight"
+        case .bankRight: "bankRight"
         }
     }
 }
