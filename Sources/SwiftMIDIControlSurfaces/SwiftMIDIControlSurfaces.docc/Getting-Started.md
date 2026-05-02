@@ -14,4 +14,4 @@ import SwiftMIDIControlSurfaces
 
 ## 2. Example Code
 
-See the **HUI Example** example project for a demonstration of ``HUIHost`` and ``HUISurface``. 
+See the **HUI Example** example project in the Examples folder for a demonstration of ``HUIHost`` and ``HUISurface``. 
